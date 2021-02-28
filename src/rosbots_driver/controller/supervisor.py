@@ -129,9 +129,9 @@ class Supervisor:
             
         
         # If ticks are the same since last time, then no need to update either
-        if ticks["r"] == self.prev_wheel_ticks["r"] and \
-           ticks["l"] == self.prev_wheel_ticks["l"]:
-           return
+        #if ticks["r"] == self.prev_wheel_ticks["r"] and \
+        #   ticks["l"] == self.prev_wheel_ticks["l"]:
+        #   return
 
         # Get current pose from robot
         prev_pose = self.robot.get_pose2D()
@@ -171,7 +171,7 @@ class Supervisor:
         self.x_dt = meters_center * math.cos(prev_pose.theta);  #projection of meter to x and y axis
         self.y_dt = meters_center * math.sin(prev_pose.theta);
         
-        self.theta_dt = (meters_right - meters_left) / L;
+        self.theta_dt = (meters_left-meters_right) / L;
         
         v_xy = meters_center/dt
         v_th = self.theta_dt/dt

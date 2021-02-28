@@ -49,9 +49,9 @@ class Robot:
              (float)(self.encoder_ticks_per_rev))   # 2piR/nunber of ticks
 
         # Wheel min and max no-load velocities in radians per sec
-        self.wheel_speed_min = rospy.get_param("wheel_speed/min", default=5.23)
-        self.wheel_speed_mid = rospy.get_param("wheel_speed/mid", default=23.5)
-        self.wheel_speed_max = rospy.get_param("wheel_speed/max", default=41.88)
+        self.wheel_speed_min = rospy.get_param("wheel_speed/min", default=5)#5.23
+        self.wheel_speed_mid = rospy.get_param("wheel_speed/mid", default=8.5)#235
+        self.wheel_speed_max = rospy.get_param("wheel_speed/max", default=12)#41.88
         self.wheel_speed_min_power = \
             rospy.get_param("wheel_speed/min_power", default=0.1)
         self.wheel_speed_mid_power = \
@@ -216,7 +216,7 @@ class Robot:
     def set_wheel_speed(self, vr, vl):
         # Clamp the wheel speeds to actuator limits
         factor_vr = 1.0
-        factor_vl = 0.87
+        factor_vl = 1.0
         vr = max(min(vr*factor_vr, self.wheel_speed_max), self.wheel_speed_max * -1.0)
         vl = max(min(vl*factor_vl, self.wheel_speed_max), self.wheel_speed_max * -1.0)
         
