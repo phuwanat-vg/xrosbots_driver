@@ -42,21 +42,18 @@ class Robot:
         
         #Encoder : define ticks per revolution
         self.encoder_ticks_per_rev = \
-            rospy.get_param("encoder_ticks_per_rev", default = 215)  #upto your encoder Photo encoder pulse : 20
-                                                                    #Motor with encoder : 215
+            rospy.get_param("encoder_ticks_per_rev", default = 210)  #upto your encoder Photo encoder pulse : 20
+                                                                    #Motor with encoder : 210 counts/rev
+                                                                    #Motor with encoder1:120 : 840 counts/rev
         self.meters_per_tick = \
             ((math.pi * 2.0 * self.wheel_radius) /
              (float)(self.encoder_ticks_per_rev))   # 2piR/nunber of ticks
 
         # Wheel min and max no-load velocities in radians per sec
 
-        self.wheel_speed_min = rospy.get_param("wheel_speed/min", default=5)#5.23
-        self.wheel_speed_mid = rospy.get_param("wheel_speed/mid", default=8.5)#235
-        self.wheel_speed_max = rospy.get_param("wheel_speed/max", default=12)#41.88
-
-        self.wheel_speed_min = rospy.get_param("wheel_speed/min", default=5)
-        self.wheel_speed_mid = rospy.get_param("wheel_speed/mid", default=8.5)
-        self.wheel_speed_max = rospy.get_param("wheel_speed/max", default=12)
+        self.wheel_speed_min = rospy.get_param("wheel_speed/min", default=5)#5.23 for TT Motor   #1.25 rad/s
+        self.wheel_speed_mid = rospy.get_param("wheel_speed/mid", default=8.5)#23.5              #2.10
+        self.wheel_speed_max = rospy.get_param("wheel_speed/max", default=12)#41.88              #3.14
 
         self.wheel_speed_min_power = \
             rospy.get_param("wheel_speed/min_power", default=0.1)
