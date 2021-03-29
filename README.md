@@ -1,14 +1,15 @@
-ROSbots ROS Drivers
+xROSbots ROS Drivers
 ====================
 
-This rosbots_driver project is a ROS package with various nodes scripts to operate a ROSbot robot.
-
-====================
-
-Coordinate system of ROSbot
-- right handed coordinate system
-- x is pointed forward, y is towards port or left side, z is pointed up
+This xrosbots driver developed from the ROSbots driver from 
 
 www.rosbots.com
 
 Jack Pien - jack@rosbots.com
+
+https://github.com/ROSbots/rosbots_driver.git
+
+
+====================
+
+This xrosbots driver contains the node for differential drive robot control for the aexros robot.
