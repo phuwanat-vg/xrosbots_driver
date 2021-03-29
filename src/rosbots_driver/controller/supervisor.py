@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #
 # This file is part of ROSbots ROS Drivers.
@@ -34,9 +34,9 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose,Point,Quaternion,Twist,Vector3
 from sensor_msgs.msg import Imu
 
-from robot import Robot
-from rc_teleop import RCTeleop
-from dynamics.differential_drive import DifferentialDrive
+from .robot import Robot
+from .rc_teleop import RCTeleop
+from .dynamics.differential_drive import DifferentialDrive
 
 class Supervisor:
     def __init__(self):

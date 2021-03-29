@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #
 # This file is part of ROSbots ROS Drivers.
@@ -28,7 +28,7 @@
 import rospy
 from geometry_msgs.msg import Twist
 
-from controller import Controller
+from .controller import Controller
 
 class RCTeleop(Controller):
     def __init__(self):

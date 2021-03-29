@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #
 # This file is part of ROSbots ROS Drivers.
@@ -25,7 +25,7 @@
 #     http://www.rosbots.com
 #
 import math
-from thread import allocate_lock
+from _thread import allocate_lock
 import rospy
 from std_msgs.msg import Float32, Int32
 from geometry_msgs.msg import Pose2D
