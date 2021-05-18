@@ -2,12 +2,12 @@
 <package>
   <name>xrosbots_driver</name>
   <version>0.0.0</version>
-  <description>The srosbots_driver package [modified from rosbots_driver for aexros robot compatible]</description>
+  <description>The xrosbots_driver package [modified from rosbots_driver for aexros robot compatible]</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="jpien@todo.todo">jpien</maintainer>
+  <maintainer email="phuwanat@axtaerobotic.com">Phuwanat</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
