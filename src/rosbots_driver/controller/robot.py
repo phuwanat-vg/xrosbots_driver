@@ -38,13 +38,13 @@ class Robot:
         # wheelbase of 140mm and wheel diameter of 70mm
         self.wheelbase = rospy.get_param("wheelbase", default=0.142)
         self.wheel_radius = rospy.get_param("wheel_radius", default=0.04255)  #Motor with encoder 0.04255
-                                                                            #TT DC gear motor white wheel 0.02
+                                                                              #TT DC gear motor white wheel 0.02
         
         #Encoder : define ticks per revolution
         self.encoder_ticks_per_rev = \
             rospy.get_param("encoder_ticks_per_rev", default = 210)  #upto your encoder Photo encoder pulse : 20
-                                                                    #Motor with encoder : 210 counts/rev
-                                                                    #Motor with encoder1:120 : 840 counts/rev
+                                                                     #Motor with encoder : 210 counts/rev
+                                                                     #Motor with encoder1:120 : 840 counts/rev
         self.meters_per_tick = \
             ((math.pi * 2.0 * self.wheel_radius) /
              (float)(self.encoder_ticks_per_rev))   # 2piR/nunber of ticks

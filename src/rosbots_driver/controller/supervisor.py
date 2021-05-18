@@ -75,6 +75,8 @@ class Supervisor:
         #publish odometry message
         self.pub_odom = \
             rospy.Publisher('/odom', Odometry, queue_size=0)
+            
+        self.int_thres = 10000
 
     def execute(self):
         # Get commands in unicycle model
@@ -146,12 +148,13 @@ class Supervisor:
         wheel_dir = self.robot.get_wheel_dir()
         
         #---------------------Uncomment for DC Gear Motor with ENcoder------------
+      
         meters_right = \
             meters_per_tick * (ticks["r"] - self.prev_wheel_ticks["r"]) #* \
-            #wheel_dir["r"]
+        #wheel_dir["r"]
         meters_left = \
             meters_per_tick * (ticks["l"] - self.prev_wheel_ticks["l"]) #* \
-            #wheel_dir["l"]
+        #wheel_dir["l"]
         meters_center = (meters_right + meters_left) * 0.5  #Average of distance
           
         #----------------Uncomment for DC gear motor without Encoder-----------

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>rosbots_driver</name>
+  <name>xrosbots_driver</name>
   <version>0.0.0</version>
-  <description>The rosbots_driver package</description>
+  <description>The srosbots_driver package [modified from rosbots_driver for aexros robot compatible]</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -20,13 +20,16 @@
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
   <url type="website">http://www.rosbots.com</url> -->
+  <url type="website">http://www.axtaerobotic.com</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->
   <!-- Authors do not have to be maintianers, but could be -->
   <!-- Example: -->
+  <!-- For rosbots_driver -->
   <author email="jack@rosbots.com">Jack Pien</author> -->
-
+  <!-- For xrosbots_driver modification -->
+  <author email="phuwanat@axtaerobotic.com">Phuwanat Phueakthong</author> -->
 
   <!-- The *_depend tags are used to specify dependencies -->
   <!-- Dependencies can be catkin packages or system dependencies -->
