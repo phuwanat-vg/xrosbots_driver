@@ -51,9 +51,7 @@ class Supervisor:
         self.current_controller = self.controllers[self.current_state]
 
         self.robot = Robot()
-        rospy.loginfo(rospy.get_caller_id() +
-                      " wheelbase: " + str(self.robot.wheelbase) +
-                      " wheel radius: " + str(self.robot.wheel_radius))
+  
         
         self.dd = DifferentialDrive(self.robot.wheelbase,
                                     self.robot.wheel_radius)
@@ -73,8 +71,7 @@ class Supervisor:
         self.prev_wheel_ticks = None
         
         #publish odometry message
-        self.pub_odom = \
-            rospy.Publisher('/odom', Odometry, queue_size=0)
+        self.pub_odom = rospy.Publisher('/odom', Odometry, queue_size=0)
             
         self.int_thres = 10000
 
@@ -84,14 +81,6 @@ class Supervisor:
 
         # Convert unicycle model commands to differential drive model
         diff_output = self.dd.uni_to_diff(ctrl_output["v"], ctrl_output["w"])
-
-        if ctrl_output["v"] != 0.0 or ctrl_output["w"] != 0.0:
-            rospy.loginfo(rospy.get_caller_id() + " v: " +
-                          str(ctrl_output["v"]) +
-                          " w: " + str(ctrl_output["w"]))
-            rospy.loginfo(rospy.get_caller_id() + " vl: " +
-                          str(diff_output["vl"]) +
-                          " vr: " + str(diff_output["vr"]))
         
         # Set the wheel speeds
         self.robot.set_wheel_speed(diff_output["vr"], diff_output["vl"])
@@ -126,49 +115,25 @@ class Supervisor:
         # Robot may not start with encoder count at zero
         if self.prev_wheel_ticks == None:
             self.prev_wheel_ticks = {"r": ticks["r"], "l": ticks["l"]}
-            rospy.loginfo(rospy.get_caller_id() + " initial l / r  ticks: " +
-                          str(ticks["l"]) + " / " + str(ticks["r"]))
-            
-        
-        # If ticks are the same since last time, then no need to update either
-        #if ticks["r"] == self.prev_wheel_ticks["r"] and \
-        #   ticks["l"] == self.prev_wheel_ticks["l"]:
-        #   return
 
         # Get current pose from robot
         prev_pose = self.robot.get_pose2D()
 
         # Compute odometry - kinematics in meters
-        R = self.robot.wheel_radius;  #wheel radius
-        L = self.robot.wheelbase;   #wheel base
+        R = self.robot.wheel_radius;                           #wheel radius
+        L = self.robot.wheelbase;                              #wheel base
         ticks_per_rev = self.robot.encoder_ticks_per_rev
         meters_per_tick = (2.0 * math.pi * R) / ticks_per_rev  #calculate how many distance per tick
         
         # How far did each wheel move
         wheel_dir = self.robot.get_wheel_dir()
         
-        #---------------------Uncomment for DC Gear Motor with ENcoder------------
+        #----------------Uncomment for DC Gear Motor with ENcoder------------
       
-        meters_right = \
-            meters_per_tick * (ticks["r"] - self.prev_wheel_ticks["r"]) #* \
-        #wheel_dir["r"]
-        meters_left = \
-            meters_per_tick * (ticks["l"] - self.prev_wheel_ticks["l"]) #* \
-        #wheel_dir["l"]
+        meters_right = meters_per_tick * (ticks["r"] - self.prev_wheel_ticks["r"]) #*wheel_dir["r"]
+        meters_left =  meters_per_tick * (ticks["l"] - self.prev_wheel_ticks["l"]) #*wheel_dir["l"]
         meters_center = (meters_right + meters_left) * 0.5  #Average of distance
           
-        #----------------Uncomment for DC gear motor without Encoder-----------
-        #meters_right = \
-        #    meters_per_tick * (ticks["r"]) * \
-        #    wheel_dir["r"]
-        #meters_left = \
-        #    meters_per_tick * (ticks["l"]) * \
-        #    wheel_dir["l"]
-        #meters_center = (meters_right + meters_left) * 0.5  #Average of distance
-        #------------------------------------------------------------------
-        
-        #imu_compensate = 0.8 #dueto IMU
-        #angular_z = imu_angular_vel["w_z"]-imu_compensate
         
         # Compute new pose
         self.x_dt = meters_center * math.cos(prev_pose.theta);  #projection of meter to x and y axis
@@ -178,10 +143,7 @@ class Supervisor:
         
         v_xy = meters_center/dt
         v_th = self.theta_dt/dt
-        
-        
-        
-        #theta_dt = (angular_z*1.0)*0.0174603 # pi/180
+
         
         new_pose = Pose2D(0.0, 0.0, 0.0)
         new_pose.x = prev_pose.x + self.x_dt
@@ -190,29 +152,6 @@ class Supervisor:
         new_pose.theta = math.atan2( math.sin(theta_tmp), math.cos(theta_tmp) )
         #new_pose.theta = theta_tmp
 
-        if True:
-            rospy.loginfo(rospy.get_caller_id() + " prev l / r ticks: " +
-                          str(self.prev_wheel_ticks["l"]) + " / " +
-                          str(self.prev_wheel_ticks["r"]))
-            rospy.loginfo(rospy.get_caller_id() + " l / r ticks: " +
-                          str(ticks["l"]) + " / " + str(ticks["r"]))
-            rospy.loginfo(rospy.get_caller_id() +
-                          " meters left / meters right: " +
-                          str(meters_left) + " / " + str(meters_right)+"x_dt:"+str(self.x_dt))
-
-            rospy.loginfo(rospy.get_caller_id() + " x, y: " +
-                          str(new_pose.x) + ", " + str(new_pose.y))
-            rospy.loginfo(rospy.get_caller_id() +
-                          " prev theta, theta_dt, new theta (deg), lticks: " +
-                          str(math.degrees(prev_pose.theta)) + ", " +
-                          str(math.degrees(self.theta_dt)) + ", " +
-                          str(math.degrees(new_pose.theta))+" ,right dir "+str(wheel_dir["r"])+" ,left dir  "+str(wheel_dir["l"])
-                          +","+str(self.prev_wheel_ticks["r"]))
-            #rospy.loginfo(rospy.get_caller_id() +
-             #           " prev theta, theta_dt, new theta (deg), lticks: " +
-              #            str(math.degrees(prev_pose.theta)) + ", " +
-               #           str(math.degrees(self.theta_dt)) + ", " +
-                #          str(math.degrees(new_pose.theta)))
         # Update robot with new pose
         self.robot.set_pose2D(new_pose)
 
@@ -224,7 +163,7 @@ class Supervisor:
         ppp = self.robot.get_pose2D()  #receive value from get_Pose2D method in Robot class
         t = TransformStamped()
         t.header.frame_id = "odom"
-        t.child_frame_id = "base_link"
+        t.child_frame_id = "base_footprint"
         t.header.stamp = rospy.Time.now()
         t.transform.translation.x = ppp.x
         t.transform.translation.y = ppp.y
@@ -244,12 +183,7 @@ class Supervisor:
 
         odom.pose.pose = Pose(Point(ppp.x,ppp.y,0),Quaternion(*q))
         #velocity odometry
-        odom.child_frame_id = "base_link"
-        
-        #odom.twist.twist.linear.x = v_xy
-        #odom.twist.twist.linear.y = 0.0
-        #odom.twist.twist.angular.z = v_th
-     
+        odom.child_frame_id = "base_footprint"
         odom.twist.twist = Twist(Vector3(v_xy,0.0,0.0),Vector3(0,0,v_th))       
         
         self.pub_odom.publish(odom)

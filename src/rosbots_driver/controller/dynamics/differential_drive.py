@@ -29,9 +29,7 @@ import rospy
 
 class DifferentialDrive:
     def __init__(self, wheelbase, wheel_radius):
-        # In meters per radian
-        # L is the radius of the circle drawn from turning one wheel while
-        # holding the other one still - happens to also be the wheelbase
+      
         self.wheelbase = wheelbase 
         self.wheel_radius = wheel_radius
 

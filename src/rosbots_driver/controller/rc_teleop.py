@@ -47,8 +47,6 @@ class RCTeleop(Controller):
         rospy.loginfo(rospy.get_caller_id() + " RCTeleop shutdown")
 
     def twist_cb(self, data):
-        rospy.loginfo(rospy.get_caller_id() + \
-                      ": Linear.x: %f -- Angular.z: %f", \
-                      data.linear.x, data.angular.z)
+        
         self.v = data.linear.x
         self.w = data.angular.z
