@@ -34,7 +34,7 @@ from sensor_msgs.msg import Imu
 class Robot:
     def __init__(self):
       
-        self.wheelbase = rospy.get_param("wheelbase", default=0.142)
+        self.wheelbase = rospy.get_param("wheelbase", default=0.177)
         self.wheel_radius = rospy.get_param("wheel_radius", default=0.04255)  #Motor with encoder 0.04255
                                                                               #TT DC gear motor white wheel 0.02
         

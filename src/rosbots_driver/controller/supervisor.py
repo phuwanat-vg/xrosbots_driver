@@ -163,7 +163,7 @@ class Supervisor:
         ppp = self.robot.get_pose2D()  #receive value from get_Pose2D method in Robot class
         t = TransformStamped()
         t.header.frame_id = "odom"
-        t.child_frame_id = "base_footprint"
+        t.child_frame_id = "base_link"
         t.header.stamp = rospy.Time.now()
         t.transform.translation.x = ppp.x
         t.transform.translation.y = ppp.y
@@ -183,7 +183,7 @@ class Supervisor:
 
         odom.pose.pose = Pose(Point(ppp.x,ppp.y,0),Quaternion(*q))
         #velocity odometry
-        odom.child_frame_id = "base_footprint"
+        odom.child_frame_id = "base_link"
         odom.twist.twist = Twist(Vector3(v_xy,0.0,0.0),Vector3(0,0,v_th))       
         
         self.pub_odom.publish(odom)
