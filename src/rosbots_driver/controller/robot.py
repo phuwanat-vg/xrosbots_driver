@@ -48,9 +48,9 @@ class Robot:
 
         # Wheel min and max no-load velocities in radians per sec
 
-        self.wheel_speed_min = rospy.get_param("wheel_speed/min", default=5)   #5.23 for TT Motor   #1.25 rad/s
+        self.wheel_speed_min = rospy.get_param("wheel_speed/min", default=3.5)   #5.23 for TT Motor   #1.25 rad/s
         self.wheel_speed_mid = rospy.get_param("wheel_speed/mid", default=8.5) #23.5              #2.10
-        self.wheel_speed_max = rospy.get_param("wheel_speed/max", default=12)  #41.88              #3.14
+        self.wheel_speed_max = rospy.get_param("wheel_speed/max", default=12)  
 
         self.wheel_speed_min_power = rospy.get_param("wheel_speed/min_power", default=0.1)
         self.wheel_speed_mid_power = rospy.get_param("wheel_speed/mid_power", default=0.55)
@@ -91,12 +91,18 @@ class Robot:
         #Initial Robot pose
         self.pose2D = Pose2D(0.0,0.0,0.0)
         
+      
+        
     def shutdown(self):
         rospy.loginfo(rospy.get_caller_id() + " Robot shutdown")
         self.cur_wheel_power_right.data = 0.0
         self.cur_wheel_power_left.data = 0.0
         self.pub_power_right.publish(self.cur_wheel_power_right)
         self.pub_power_left.publish(self.cur_wheel_power_left)
+        
+    def get_tick_timestamp(self):
+        timestamp = rospy.Time.now()
+        return timestamp
         
     def get_wheel_ticks(self):
         ticks = {}
@@ -107,6 +113,7 @@ class Robot:
         ticks["ts"] = self._cur_wheel_ticks_ts
         self.wheel_ticks_right_lock.release()     #unlock locked object
         self.wheel_ticks_left_lock.release()
+        self.get_tick_timestamp()
         return ticks
     
     def get_pose2D(self):  #create method for return of pose2D
@@ -147,7 +154,7 @@ class Robot:
             self._cur_wheel_ticks_ts = rospy.Time.now()
             self._cur_wheel_ticks_left = ticks.data
             self.wheel_ticks_left_lock.release()
-            
+      
     def imu_cb(self, imu_w):
         
         self._cur_imu_angular_z = imu_w.angular_velocity.z

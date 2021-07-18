@@ -97,16 +97,17 @@ class Supervisor:
 
     def update_odometry(self):  #this method for update odometry
         # Get wheel encoder ticks
-        timestamp = rospy.Time.now()
+        
         v_xy = 0
         v_th = 0
         
         ticks = self.robot.get_wheel_ticks()
+        timestamp = self.robot.get_tick_timestamp()
         imu_angular_vel = self.robot.get_imu_angular()
         
         #Change of TIme
         dt = timestamp-self.last_time
-        dt = dt.to_sec()
+        dt = dt.to_sec()*2
 
         # Have not seen a wheel encoder message yet so no need to do anything
         if ticks["r"] == None or ticks["l"] == None:
@@ -134,6 +135,15 @@ class Supervisor:
         meters_left =  meters_per_tick * (ticks["l"] - self.prev_wheel_ticks["l"]) #*wheel_dir["l"]
         meters_center = (meters_right + meters_left) * 0.5  #Average of distance
           
+        #RPM calculation
+        rpm_r = (((ticks["r"]-self.prev_wheel_ticks["r"])/ticks_per_rev)/dt)*60
+        rpm_l = (((ticks["l"]-self.prev_wheel_ticks["l"])/ticks_per_rev)/dt)*60
+        rps_r = (rpm_r*2*math.pi)/60
+        rps_l = (rpm_l*2*math.pi)/60
+        
+        #uncomment to show RPM
+        #rospy.loginfo("Right wheel speed : "+str(round(rpm_r,3))+" RPM "+ str(round(rps_r,3))+ " rad/s")
+        #rospy.loginfo("Left wheel speed : "+str(round(rpm_l,3))+" RPM "+ str(round(rps_l,3))+ " rad/s")
         
         # Compute new pose
         self.x_dt = meters_center * math.cos(prev_pose.theta);  #projection of meter to x and y axis
