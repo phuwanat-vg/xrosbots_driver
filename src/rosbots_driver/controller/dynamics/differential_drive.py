@@ -40,11 +40,13 @@ class DifferentialDrive:
         w_lower_limit = 4.2
         w_upper_limit = 4.6
         scaling_factor = 5.0
-        w = scaling_factor*w
-        if w<0:
-           w = min(max(w,-w_upper_limit),-w_lower_limit)
-        elif w>0:
-           w = max(min(w,w_upper_limit),w_lower_limit)
+        if v == 0.0:
+           w = scaling_factor*w
+           if w<0:
+              w = min(max(w,-w_upper_limit),-w_lower_limit)
+           elif w>0:
+              w = max(min(w,w_upper_limit),w_lower_limit)
+
         # In meters per radian
         L = self.wheelbase
         R = self.wheel_radius
