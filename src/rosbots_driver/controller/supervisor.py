@@ -149,7 +149,7 @@ class Supervisor:
         self.x_dt = meters_center * math.cos(prev_pose.theta);  #projection of meter to x and y axis
         self.y_dt = meters_center * math.sin(prev_pose.theta);
         
-        self.theta_dt = (meters_left-meters_right) / L;
+        self.theta_dt = (meters_right-meters_left) / L;
         
         v_xy = meters_center/dt
         v_th = self.theta_dt/dt
