@@ -29,9 +29,7 @@ import rospy
 
 class DifferentialDrive:
     def __init__(self, wheelbase, wheel_radius):
-        # In meters per radian
-        # L is the radius of the circle drawn from turning one wheel while
-        # holding the other one still - happens to also be the wheelbase
+      
         self.wheelbase = wheelbase 
         self.wheel_radius = wheel_radius
 
@@ -39,11 +37,20 @@ class DifferentialDrive:
         '''
         Return mm per sec wheel velocities
         '''
+        w_lower_limit = 4.2
+        w_upper_limit = 4.6
+        scaling_factor = 5.0
+        if v == 0.0:
+           w = scaling_factor*w
+           if w<0:
+              w = min(max(w,-w_upper_limit),-w_lower_limit)
+           elif w>0:
+              w = max(min(w,w_upper_limit),w_lower_limit)
 
         # In meters per radian
         L = self.wheelbase
         R = self.wheel_radius
-        
+        #w = min(4.3,w)
         # w is angular velocity counter clockwise - radians/sec
         # v - m/s
         # L - wheelbase - meter/radian
