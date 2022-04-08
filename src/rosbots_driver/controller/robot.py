@@ -247,8 +247,8 @@ class Robot:
             self._prev_wheel_ticks["ts"] = cur_ticks["ts"]
             
         # Convert to power norms
-        self.cur_wheel_power_right.data = self.velocity_to_power(vr)
-        self.cur_wheel_power_left.data = self.velocity_to_power(vl)
+        self.cur_wheel_power_right.data = vr*9.5493
+        self.cur_wheel_power_left.data = vl*9.5493
 
         # Publish out
         
